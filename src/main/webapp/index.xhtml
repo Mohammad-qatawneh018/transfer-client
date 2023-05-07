@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+
+<h:body>
+<h1>Accounts</h1>
+	<p:growl id="messages" showDetail="true" />
+	<p:toolbar>
+		<p:toolbarGroup>
+			<p:commandButton value="New" icon="pi pi-plus"
+				actionListener="#{controller.openNewAccount}"
+				update=":dialogs:manage-accounts-content"
+				oncomplete="PF('manageAccountsDialog').show()"
+				styleClass="ui-button-success" style="margin-right: .5rem">
+				<p:resetInput target=":dialogs:manage-accounts-content" />
+			</p:commandButton>
+
+		</p:toolbarGroup>
+	</p:toolbar>
+
+	<h:form id="form">
+
+		<p:dataTable id="dataTableAccount" var="account"
+			value="#{controller.accountsViewd}" widgetVar="DataTableAccount"
+			lazy="false">
+			<p:column headerText="ID">
+				<h:outputText value="#{account.id}" />
+			</p:column>
+			<p:column headerText="Name">
+				<h:outputText value="#{account.accountName}" />
+			</p:column>
+
+			<p:column headerText="Account Number">
+				<h:outputText value="#{account.accountNumber}" />
+			</p:column>
+			<p:column headerText="Balance">
+
+				<h:outputText value="#{account.balance}" />
+			</p:column>
+
+		</p:dataTable>
+
+
+	</h:form>
+
+	<h:form id="dialogs">
+		<p:dialog header="ADD A NEW Account" showEffect="fade" modal="true"
+			widgetVar="manageAccountsDialog" responsive="true">
+			<p:outputPanel id="manage-accounts-content" class="ui-fluid">
+				<p:outputPanel rendered="#{not empty controller.newAccount}">
+					<div class="field">
+						<h:outputText value="#{controller.newAccount.id}" />
+
+					</div>
+					<div class="field">
+
+						<p:outputLabel for="name">Name</p:outputLabel>
+						<p:inputText id="name"
+							value="#{controller.newAccount.accountName}" required="true" />
+					</div>
+					<div class="field">
+						<p:outputLabel for="AccountNumber">Account Number</p:outputLabel>
+						<p:inputTextarea id="AccountNumber"
+							value="#{controller.newAccount.accountNumber}" />
+					</div>
+					<div class="field">
+						<p:outputLabel for="balance">Balance</p:outputLabel>
+						<p:inputText id="balance" value="#{controller.newAccount.balance}" />
+					</div>
+
+
+				</p:outputPanel>
+			</p:outputPanel>
+
+			<f:facet name="footer">
+				<p:commandButton value="Save" icon="pi pi-check"
+					actionListener="#{controller.saveNewAccount()}"
+					update="manage-accounts-content"
+					process="manage-accounts-content @this" />
+				<p:commandButton value="Cancel" icon="pi pi-times"
+					onclick="PF('manageAccountsDialog').hide()"
+					class="ui-button-secondary" type="button" />
+			</f:facet>
+		</p:dialog>
+
+
+
+
+	</h:form>
+
+
+</h:body>
+</html>
